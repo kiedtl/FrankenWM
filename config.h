@@ -10,7 +10,7 @@
 #define SHIFT           ShiftMask   /* Shift key */
 
 /* EDIT THIS: general settings */
-#define MASTER_SIZE      0.6       /* master-stack ratio */
+#define MASTER_SIZE      0.7       /* master-stack ratio */
 #define SHOW_PANEL       True      /* show panel by default on exec */
 #define TOP_PANEL        True      /* False means panel is on bottom */
 #define PANEL_HEIGHT     48        /* 0 for no space for panel, thus no panel */
@@ -23,7 +23,7 @@
 #define SCRATCH_WIDTH    2         /* scratch window border width, 0 to disable */
 #define FOCUS            "#ebc0a4" /* focused window border color   */
 #define UNFOCUS          "#993c44" /* unfocused window border color */
-#define SCRATCH          FOCUS     /* scratchpad border color */
+#define SCRATCH          "#ebc0a4" /* scratchpad border color */
 #define DESKTOPS         10        /* number of desktops - edit DESKTOPCHANGE keys to suit */
 #define DEFAULT_DESKTOP  0         /* the desktop to focus on exec */
 #define MINWSZ           50        /* minimum window size in pixels */
@@ -34,7 +34,7 @@
 #define AUTOCENTER       True      /* automatically center windows floating by default */
 #define OUTPUT_TITLE     False     /* output the title of the currently active window */
 #define USE_SCRATCHPAD   True      /* enable the scratchpad functionality */
-#define CLOSE_SCRATCHPAD True     /* close scratchpad on quit */
+#define CLOSE_SCRATCHPAD True      /* close scratchpad on quit */
 #define SCRPDNAME        "scratchpad" /* the name of the scratchpad window */
 #define EWMH_TASKBAR     True      /* False if text (or no) panel/taskbar */
 
@@ -78,6 +78,7 @@ static const char *scrpcmd[] = { "xterm", "-T", "scratchpad", NULL };
  * By default, all shortcuts use only Mod4 (+ Shift/Control), but you can use
  * Mod1 as well if you like to, I just prefer not to. (Update: handling
  * floating windows makes more sense when using Mod1 as well, so there's that)
+
  */
 static key keys[] = {
     /* modifier          key            function           argument */
@@ -98,7 +99,7 @@ static key keys[] = {
     /* maximize the current window */
     {  MOD4,             XK_f,          maximize,          {NULL}},
     /* minimize window to queue/pull window from queue */
-    {  MOD4,             XK_m,          minimize,          {NULL}},
+    {  MOD4|SHIFT,       XK_m,          minimize,          {NULL}},
     {  MOD4,             XK_n,          restore,           {NULL}},
     /* move the current window to the center of the screen, floating */
     {  MOD4,             XK_c,          centerwindow,      {NULL}},
@@ -120,18 +121,16 @@ static key keys[] = {
     {  MOD4|MOD1|CONTROL,XK_h,          resize_x,          {.i = -10}},
     {  MOD4|MOD1|CONTROL,XK_l,          resize_x,          {.i = +10}},
     /* reset the selected floating window to tiling */
-    {  MOD4|SHIFT,       XK_t,          tilemize,          {NULL}},
+    {  MOD4,             XK_t,          tilemize,          {NULL}},
 
     /* mode selection */
-    {  MOD4,             XK_t,          switch_mode,       {.i = TILE}},
+    {  MOD4|SHIFT,       XK_t,          switch_mode,       {.i = TILE}},
     {  MOD4|SHIFT,       XK_m,          switch_mode,       {.i = MONOCLE}},
     {  MOD4|SHIFT,       XK_b,          switch_mode,       {.i = BSTACK}},
     {  MOD4|SHIFT,       XK_g,          switch_mode,       {.i = GRID}},
     {  MOD4|SHIFT,       XK_f,          switch_mode,       {.i = FIBONACCI}},
     {  MOD4|SHIFT,       XK_d,          switch_mode,       {.i = DUALSTACK}},
-    {  MOD4|SHIFT,       XK_e,          switch_mode,       {.i = EQUAL}},
-    {  MOD4|SHIFT,       XK_z,          rotate_mode,       {.i = -1}},
-    {  MOD4|SHIFT,       XK_x,          rotate_mode,       {.i = +1}},
+    {  MOD4|CONTROL,     XK_e,          switch_mode,       {.i = EQUAL}},
 
     /* spawn terminal, dmenu, w/e you want to */
     {  MOD4,             XK_Return,     spawn,             {.com = termcmd}},
