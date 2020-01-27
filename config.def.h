@@ -10,33 +10,33 @@
 #define SHIFT           ShiftMask   /* Shift key */
 
 /* EDIT THIS: general settings */
-#define MASTER_SIZE     0.6       /* master-stack ratio */
-#define SHOW_PANEL      False     /* show panel by default on exec */
-#define TOP_PANEL       True      /* False means panel is on bottom */
-#define PANEL_HEIGHT    18        /* 0 for no space for panel, thus no panel */
-#define DEFAULT_MODE    TILE      /* TILE MONOCLE BSTACK GRID FIBONACCI EQUAL */
-#define ATTACH_ASIDE    True      /* False means new window is master */
-#define FOLLOW_MOUSE    False     /* Focus the window the mouse just entered */
-#define FOLLOW_WINDOW   False     /* Follow the window when moved to a different desktop */
-#define CLICK_TO_FOCUS  True      /* Focus an unfocused window when clicked */
-#define BORDER_WIDTH    2         /* window border width */
-#define SCRATCH_WIDTH   1         /* scratch window border width, 0 to disable */
-#define FOCUS           "#cccccc" /* focused window border color   */
-#define UNFOCUS         "#121212" /* unfocused window border color */
-#define SCRATCH         "#cc0000" /* scratchpad border color */
-#define DESKTOPS        10        /* number of desktops - edit DESKTOPCHANGE keys to suit */
-#define DEFAULT_DESKTOP 0         /* the desktop to focus on exec */
-#define MINWSZ          50        /* minimum window size in pixels */
-#define USELESSGAP      8         /* the size of the useless gap in pixels */
-#define GLOBALGAPS      True      /* use the same gap size on all desktops */
-#define MONOCLE_BORDERS False     /* display borders in monocle mode */
-#define INVERT          False     /* use alternative modes by default */
-#define AUTOCENTER      True      /* automatically center windows floating by default */
-#define OUTPUT_TITLE    False     /* output the title of the currently active window */
-#define USE_SCRATCHPAD  False     /* enable the scratchpad functionality */
+#define MASTER_SIZE      0.6       /* master-stack ratio */
+#define SHOW_PANEL       False     /* show panel by default on exec */
+#define TOP_PANEL        True      /* False means panel is on bottom */
+#define PANEL_HEIGHT     18        /* 0 for no space for panel, thus no panel */
+#define DEFAULT_MODE     TILE      /* TILE MONOCLE BSTACK GRID FIBONACCI EQUAL */
+#define ATTACH_ASIDE     True      /* False means new window is master */
+#define FOLLOW_MOUSE     True      /* Focus the window the mouse just entered */
+#define FOLLOW_WINDOW    False     /* Follow the window when moved to a different desktop */
+#define CLICK_TO_FOCUS   True      /* Focus an unfocused window when clicked */
+#define BORDER_WIDTH     2         /* window border width */
+#define SCRATCH_WIDTH    2         /* scratch window border width, 0 to disable */
+#define FOCUS            "#ebc0a4" /* focused window border color   */
+#define UNFOCUS          "#993c44" /* unfocused window border color */
+#define SCRATCH          FOCUS     /* scratchpad border color */
+#define DESKTOPS         10        /* number of desktops - edit DESKTOPCHANGE keys to suit */
+#define DEFAULT_DESKTOP  0         /* the desktop to focus on exec */
+#define MINWSZ           50        /* minimum window size in pixels */
+#define USELESSGAP       16        /* the size of the useless gap in pixels */
+#define GLOBALGAPS       True      /* use the same gap size on all desktops */
+#define MONOCLE_BORDERS  True      /* display borders in monocle mode */
+#define INVERT           False     /* use alternative modes by default */
+#define AUTOCENTER       True      /* automatically center windows floating by default */
+#define OUTPUT_TITLE     False     /* output the title of the currently active window */
+#define USE_SCRATCHPAD   True      /* enable the scratchpad functionality */
 #define CLOSE_SCRATCHPAD True     /* close scratchpad on quit */
-#define SCRPDNAME       "scratchpad" /* the name of the scratchpad window */
-#define EWMH_TASKBAR    True      /* False if text (or no) panel/taskbar */
+#define SCRPDNAME        "scratchpad" /* the name of the scratchpad window */
+#define EWMH_TASKBAR     True      /* False if text (or no) panel/taskbar */
 
 /*
  * EDIT THIS: applicaton specific rules
@@ -49,8 +49,7 @@
  */
 static const AppRule rules[] = { \
     /* title regex  desktop  follow  float border_with */
-    { "GNU Image",  -1,      False,  True, 0 },
-    { "Skype",       3,      False,  True, -1 },
+    { "feh",        -1,      False,  True, 0 },
 };
 
 /* helper for spawning shell commands, usually you don't edit this */
@@ -65,10 +64,10 @@ static const AppRule rules[] = { \
  * window. The title of the scratchpad window should also match SCRPDNAME from
  * above
  */
-static const char *termcmd[] = { "xterm",     NULL };
-static const char *menucmd[] = { "dmenu_run", NULL };
+static const char *termcmd[] = { "xterm",                     NULL };
+static const char *menucmd[] = { "ndmen",                     NULL };
+static const char *lockcmd[] = { "slock",                     NULL };
 static const char *scrpcmd[] = { "xterm", "-T", "scratchpad", NULL };
-/* static const char *scrpcmd[] = { "urxvt", "-name", "scratchpad",  NULL }; */
 
 #define DESKTOPCHANGE(K,N) \
     {  MOD4,             K,              change_desktop, {.i = N}}, \
@@ -95,7 +94,7 @@ static key keys[] = {
     {  MOD4|SHIFT,       XK_j,          move_down,         {NULL}},
     {  MOD4|SHIFT,       XK_k,          move_up,           {NULL}},
     /* swap the current window to master */
-    {  MOD4,             XK_Return,     swap_master,       {NULL}},
+    {  MOD4,             XK_h,          swap_master,       {NULL}},
     /* maximize the current window */
     {  MOD4,             XK_f,          maximize,          {NULL}},
     /* minimize window to queue/pull window from queue */
@@ -108,7 +107,7 @@ static key keys[] = {
     /* show/hide all windows on all desktops */
     {  MOD4|CONTROL,     XK_s,          showhide,          {NULL}},
     /* toggle the scratchpad terminal, if enabled */
-    {  MOD4,             XK_s,          togglescratchpad,  {NULL}},
+    {  MOD4,             XK_space,      togglescratchpad,  {NULL}},
 
     /* move floating windows */
     {  MOD4|MOD1,        XK_j,          float_y,           {.i = +10}},
@@ -121,10 +120,10 @@ static key keys[] = {
     {  MOD4|MOD1|CONTROL,XK_h,          resize_x,          {.i = -10}},
     {  MOD4|MOD1|CONTROL,XK_l,          resize_x,          {.i = +10}},
     /* reset the selected floating window to tiling */
-    {  MOD4,             XK_t,          tilemize,          {NULL}},
+    {  MOD4|SHIFT,       XK_t,          tilemize,          {NULL}},
 
     /* mode selection */
-    {  MOD4|SHIFT,       XK_t,          switch_mode,       {.i = TILE}},
+    {  MOD4,             XK_t,          switch_mode,       {.i = TILE}},
     {  MOD4|SHIFT,       XK_m,          switch_mode,       {.i = MONOCLE}},
     {  MOD4|SHIFT,       XK_b,          switch_mode,       {.i = BSTACK}},
     {  MOD4|SHIFT,       XK_g,          switch_mode,       {.i = GRID}},
@@ -135,10 +134,12 @@ static key keys[] = {
     {  MOD4|SHIFT,       XK_x,          rotate_mode,       {.i = +1}},
 
     /* spawn terminal, dmenu, w/e you want to */
-    {  MOD4|SHIFT,       XK_Return,     spawn,             {.com = termcmd}},
-    {  MOD4,             XK_r,          spawn,             {.com = menucmd}},
+    {  MOD4,             XK_Return,     spawn,             {.com = termcmd}},
+    {  MOD4,             XK_p,          spawn,             {.com = menucmd}},
+    {  MOD4|SHIFT,       XK_s,          spawn,             {.com = lockcmd}},
+
     /* kill current window */
-    {  MOD4|SHIFT,       XK_c,          killclient,        {NULL}},
+    {  MOD4|SHIFT,       XK_q,          killclient,        {NULL}},
 
     /* desktop selection */
        DESKTOPCHANGE(    XK_1,                             0)
@@ -151,23 +152,12 @@ static key keys[] = {
        DESKTOPCHANGE(    XK_8,                             7)
        DESKTOPCHANGE(    XK_9,                             8)
        DESKTOPCHANGE(    XK_0,                             9)
-    /* toggle to last desktop */
-    {  MOD4,             XK_Tab,        last_desktop,      {NULL}},
-    /* jump to the next/previous desktop */
-    {  MOD4|SHIFT,       XK_h,          rotate,            {.i = -1}},
-    {  MOD4|SHIFT,       XK_l,          rotate,            {.i = +1}},
-    /* jump to the next/previous desktop with just the current window */
-    {  MOD4|CONTROL,     XK_h,          rotate_client,     {.i = -1}},
-    {  MOD4|CONTROL,     XK_l,          rotate_client,     {.i = +1}},
-    /* jump to the next/previous desktop with all windows */
-    {  MOD4|CONTROL|SHIFT, XK_h,        rotate_filled,     {.i = -1}},
-    {  MOD4|CONTROL|SHIFT, XK_l,        rotate_filled,     {.i = +1}},
 
     /* resize master/first stack window */
-    {  MOD4,             XK_h,          resize_master,     {.i = -10}},
-    {  MOD4,             XK_l,          resize_master,     {.i = +10}},
-    {  MOD4,             XK_o,          resize_stack,      {.i = -10}},
-    {  MOD4,             XK_p,          resize_stack,      {.i = +10}},
+    {  MOD4|SHIFT,       XK_h,          resize_master,     {.i = -10}},
+    {  MOD4|SHIFT,       XK_l,          resize_master,     {.i = +10}},
+    {  MOD4|SHIFT,       XK_o,          resize_stack,      {.i = -10}},
+    {  MOD4|SHIFT,       XK_p,          resize_stack,      {.i = +10}},
 
     /* resize the borders */
     {  MOD4|CONTROL,     XK_u,          adjust_borders,    {.i = -1}},
@@ -179,7 +169,7 @@ static key keys[] = {
     {  MOD4|CONTROL,     XK_b,          togglepanel,       {NULL}},
 
     /* exit */
-    {  MOD4|CONTROL,     XK_q,          quit,              {.i = 0}},
+    {  MOD4|SHIFT,       XK_e,          quit,              {.i = 0}},
 };
 
 /* EDIT THIS: mouse-based shortcuts */
