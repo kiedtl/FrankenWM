@@ -10,7 +10,7 @@
 #define SHIFT           ShiftMask   /* Shift key */
 
 /* EDIT THIS: general settings */
-#define MASTER_SIZE      0.7       /* master-stack ratio */
+#define MASTER_SIZE      0.64      /* master-stack ratio */
 #define SHOW_PANEL       True      /* show panel by default on exec */
 #define TOP_PANEL        True      /* False means panel is on bottom */
 #define PANEL_HEIGHT     48        /* 0 for no space for panel, thus no panel */
@@ -21,9 +21,9 @@
 #define CLICK_TO_FOCUS   True      /* Focus an unfocused window when clicked */
 #define BORDER_WIDTH     2         /* window border width */
 #define SCRATCH_WIDTH    2         /* scratch window border width, 0 to disable */
-#define FOCUS            "#ebc0a4" /* focused window border color   */
-#define UNFOCUS          "#993c44" /* unfocused window border color */
-#define SCRATCH          "#ebc0a4" /* scratchpad border color */
+#define FOCUS            "#dbdbdb" /* focused window border color   */
+#define UNFOCUS          "#4a4a4d" /* unfocused window border color */
+#define SCRATCH          "#dbdbdb" /* scratchpad border color */
 #define DESKTOPS         10        /* number of desktops - edit DESKTOPCHANGE keys to suit */
 #define DEFAULT_DESKTOP  0         /* the desktop to focus on exec */
 #define MINWSZ           50        /* minimum window size in pixels */
